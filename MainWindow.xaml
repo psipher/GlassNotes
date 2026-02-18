@@ -175,9 +175,14 @@
                                      Margin="6,0,6,6"
                                      AllowDrop="True"
                                      MouseMove="NotesListBox_MouseMove"
-                                     Drop="NotesListBox_Drop">
+                                     Drop="NotesListBox_Drop"
+                                     MouseDoubleClick="NotesListBox_MouseDoubleClick">
                                 <ListBox.ContextMenu>
                                     <ContextMenu>
+                                        <MenuItem Header="Open in New Window" 
+                                                  Command="{Binding DataContext.OpenNoteInNewWindowCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                  CommandParameter="{Binding}"/>
+                                        <Separator/>
                                         <MenuItem Header="Delete" Command="{Binding DeleteCurrentNoteCommand}"/>
                                     </ContextMenu>
                                 </ListBox.ContextMenu>
@@ -196,11 +201,34 @@
                                                            FontFamily="{Binding DataContext.Settings.FontFamily, RelativeSource={RelativeSource AncestorType=Window}}"
                                                            FontWeight="SemiBold"
                                                            TextTrimming="CharacterEllipsis"/>
-                                                <TextBlock Text="{Binding ModifiedAt, StringFormat='Modified {0:M/d/yyyy h:mm tt}'}"
-                                                           Foreground="{DynamicResource TextSecondaryBrush}"
-                                                           FontSize="10"
-                                                           FontFamily="{Binding DataContext.Settings.FontFamily, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                           Margin="0,2,0,0"/>
+                                                <Grid>
+                                                    <TextBlock Text="{Binding ModifiedAt, StringFormat='Modified {0:M/d/yyyy h:mm tt}'}"
+                                                               Foreground="{DynamicResource TextSecondaryBrush}"
+                                                               FontSize="10"
+                                                               FontFamily="{Binding DataContext.Settings.FontFamily, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                               Margin="0,2,0,0"/>
+                                                    
+                                                    <!-- Launch to Window Button (Visible on Hover maybe?) -->
+                                                    <Button Content="↗" 
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Center"
+                                                            FontSize="12" Width="20" Height="20"
+                                                            Padding="0" Margin="0,0,4,0"
+                                                            ToolTip="Open in New Window"
+                                                            Command="{Binding DataContext.OpenNoteInNewWindowCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                            CommandParameter="{Binding}">
+                                                        <Button.Style>
+                                                            <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                    </Button>
+                                                </Grid>
                                             </StackPanel>
                                         </Border>
                                         <DataTemplate.Triggers>

@@ -19,6 +19,7 @@ public partial class MainViewModel : ObservableObject
     private readonly NoteService _noteService;
     private readonly SettingsService _settingsService;
     private readonly DispatcherTimer _autoSaveTimer;
+    private readonly System.Collections.Generic.Dictionary<Guid, NoteWindow> _openNoteWindows = new();
 
     [ObservableProperty]
     private ObservableCollection<Note> _notes = new();
@@ -199,6 +200,25 @@ public partial class MainViewModel : ObservableObject
             
             _noteService.DeleteNote(noteToDelete.Id);
         }
+    }
+
+    [RelayCommand]
+    private void OpenNoteInNewWindow(Note? note)
+    {
+        if (note == null) return;
+
+        if (_openNoteWindows.TryGetValue(note.Id, out var existingWindow))
+        {
+            existingWindow.Activate();
+            existingWindow.Focus();
+            return;
+        }
+
+        var noteWindow = new NoteWindow(note, Settings);
+        _openNoteWindows[note.Id] = noteWindow;
+        
+        noteWindow.Closed += (s, e) => _openNoteWindows.Remove(note.Id);
+        noteWindow.Show();
     }
 
     [RelayCommand]

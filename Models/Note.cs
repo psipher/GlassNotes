@@ -13,7 +13,9 @@ public partial class Note : ObservableObject
     [ObservableProperty]
     private string _title = "Untitled Note";
     
-    public string Content { get; set; } = string.Empty;
+    [ObservableProperty]
+    private string _content = string.Empty;
+
     public DateTime CreatedAt { get; set; }
     public DateTime ModifiedAt { get; set; }
 

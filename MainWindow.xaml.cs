@@ -425,4 +425,12 @@ public partial class MainWindow : Window
         }
         return null;
     }
+
+    private void NotesListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+        if (NotesListBox.SelectedItem is Models.Note note)
+        {
+            ViewModel.OpenNoteInNewWindowCommand.Execute(note);
+        }
+    }
 }
