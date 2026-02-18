@@ -1,6 +1,7 @@
-using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -32,6 +33,11 @@ public partial class MainViewModel : ObservableObject
     private AppSettings _settings = new();
 
     [ObservableProperty]
+    private string _searchText = string.Empty;
+
+    public ICollectionView FilteredNotes { get; }
+
+    [ObservableProperty]
     private bool _isSettingsPanelOpen;
 
     public MainViewModel()
@@ -49,6 +55,23 @@ public partial class MainViewModel : ObservableObject
         // Load settings and notes
         LoadSettings();
         LoadNotes();
+
+        FilteredNotes = CollectionViewSource.GetDefaultView(Notes);
+        FilteredNotes.Filter = FilterNotes;
+    }
+
+    private bool FilterNotes(object obj)
+    {
+        if (obj is not Note note) return false;
+        if (string.IsNullOrWhiteSpace(SearchText)) return true;
+
+        return note.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+               note.Content.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
+    }
+
+    partial void OnSearchTextChanged(string value)
+    {
+        FilteredNotes.Refresh();
     }
 
     private void LoadSettings()
