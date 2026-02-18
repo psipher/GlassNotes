@@ -1,0 +1,30 @@
+## Visual Studio Build Outputs
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+ARM/
+ARM64/
+
+## Visual Studio cache and settings
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+## User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Roslyn cache
+*.phpnew
+*.cache
+*.assetlist
+
+## OS generated files
+Thumbs.db
+Desktop.ini

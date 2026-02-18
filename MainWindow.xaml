@@ -1,0 +1,407 @@
+﻿<Window x:Class="LucidNotes.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:LucidNotes.ViewModels"
+        Title="Lucid Notes" 
+        Height="520" Width="680"
+        MinHeight="420" MinWidth="620"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="CanResizeWithGrip"
+        SourceInitialized="MainWindow_SourceInitialized">
+
+    <Window.Resources>
+        <Style TargetType="ResizeGrip">
+            <Setter Property="Visibility" Value="Collapsed"/>
+        </Style>
+    </Window.Resources>
+
+    <!-- Root Grid containing main app and settings overlay -->
+    <Grid>
+        
+        <!-- Main App Content - Opacity is applied here -->
+        <Border x:Name="MainBorder"
+                Background="{DynamicResource WindowBackgroundBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="16">
+            <Border.Effect>
+                <DropShadowEffect Color="#000000"
+                                  BlurRadius="24"
+                                  ShadowDepth="4"
+                                  Opacity="0.18"
+                                  Direction="270"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- ── Title Bar ─────────────────────────────────────────────── -->
+                <Border Grid.Row="0"
+                        Background="{DynamicResource SurfaceBrush}"
+                        CornerRadius="16,16,0,0"
+                        MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="14,10">
+                            <!-- Custom App Icon -->
+                            <Viewbox Width="20" Height="20" Margin="0,0,8,0">
+                                <Grid Width="24" Height="24">
+                                    <!-- Note Page -->
+                                    <Path Data="M4,2 L16,2 L20,6 L20,22 L4,22 Z" Fill="#FFD700" Stroke="#E0C000" StrokeThickness="1"/>
+                                    <!-- Folded Corner -->
+                                    <Path Data="M16,2 L16,6 L20,6 Z" Fill="#FFC107"/>
+                                    <!-- Lines -->
+                                    <Path Data="M7,8 L17,8 M7,12 L17,12 M7,16 L14,16" Stroke="#808080" StrokeThickness="1.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                    <!-- Pen -->
+                                    <Path Data="M16,16 L22,22 M16,16 L18,18" Stroke="#2196F3" StrokeThickness="2.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                    <Path Data="M15,15 L23,23" Stroke="#1976D2" StrokeThickness="1"/>
+                                </Grid>
+                            </Viewbox>
+                            <TextBlock Text="Lucid Notes"
+                                       FontWeight="SemiBold" FontSize="13"
+                                       Foreground="{DynamicResource TextPrimaryBrush}"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="4,6">
+                            <Button Content="—" Style="{StaticResource IconButton}"
+                                    Click="MinimizeButton_Click" ToolTip="Minimize" Margin="2"/>
+                            <Button x:Name="MaximizeButton" Content="☐" Style="{StaticResource IconButton}"
+                                    Click="MaximizeButton_Click" ToolTip="Maximize" Margin="2"/>
+                            <Button Content="✕" Style="{StaticResource IconButton}"
+                                    Click="CloseButton_Click" ToolTip="Close" Margin="2"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- ── Main Content Area ─────────────────────────────────────── -->
+                <Grid Grid.Row="1" x:Name="ContentGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" MinWidth="160" MaxWidth="280"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Notes List Sidebar -->
+                    <Border Grid.Column="0"
+                            x:Name="NotesSidebar"
+                            Background="Transparent"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="0,0,1,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="NOTES"
+                                       FontWeight="SemiBold" FontSize="10"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"
+                                       Margin="14,10,14,6"/>
+
+                            <ListBox Grid.Row="1"
+                                     x:Name="NotesListBox"
+                                     ItemsSource="{Binding Notes}"
+                                     SelectedItem="{Binding CurrentNote}"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Margin="6,0,6,6"
+                                     AllowDrop="True"
+                                     MouseMove="NotesListBox_MouseMove"
+                                     Drop="NotesListBox_Drop">
+                                <ListBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Delete" Command="{Binding DeleteCurrentNoteCommand}"/>
+                                    </ContextMenu>
+                                </ListBox.ContextMenu>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border x:Name="NoteItemBorder"
+                                                Background="{DynamicResource NoteItemBackgroundBrush}"
+                                                Padding="10,8" Margin="2,2"
+                                                CornerRadius="10"
+                                                BorderThickness="1.5"
+                                                BorderBrush="Transparent">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Title}"
+                                                           Foreground="{DynamicResource TextPrimaryBrush}"
+                                                           FontSize="13"
+                                                           FontFamily="{Binding DataContext.Settings.FontFamily, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                           FontWeight="SemiBold"
+                                                           TextTrimming="CharacterEllipsis"/>
+                                                <TextBlock Text="{Binding ModifiedAt, StringFormat='Modified {0:M/d/yyyy h:mm tt}'}"
+                                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                                           FontSize="10"
+                                                           FontFamily="{Binding DataContext.Settings.FontFamily, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                           Margin="0,2,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                                <Setter TargetName="NoteItemBorder" Property="BorderBrush" Value="#FFD700"/>
+                                                <Setter TargetName="NoteItemBorder" Property="Background" Value="{DynamicResource NoteItemSelectedBackgroundBrush}"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
+                    </Border>
+
+                    <!-- Note Content Area -->
+                    <Grid Grid.Column="1" Margin="8">
+                        <TextBox x:Name="NoteTextBox"
+                                 Text="{Binding CurrentNote.Content, UpdateSourceTrigger=PropertyChanged}"
+                                 AcceptsReturn="True" TextWrapping="Wrap"
+                                 BorderThickness="0" Background="Transparent"
+                                 Foreground="{DynamicResource TextPrimaryBrush}"
+                                 FontSize="{Binding Settings.FontSize}"
+                                 FontFamily="{Binding Settings.FontFamily}"
+                                 VerticalScrollBarVisibility="Auto"
+                                 Padding="8"/>
+                    </Grid>
+                </Grid>
+
+                <!-- ── Bottom Toolbar ────────────────────────────────────────── -->
+                <Border Grid.Row="2"
+                        Background="{DynamicResource SurfaceBrush}"
+                        CornerRadius="0,0,16,16"
+                        Height="46">
+                    <StackPanel Orientation="Horizontal" Margin="8,0"
+                                HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Button Content="➕" Style="{StaticResource IconButton}"
+                                Command="{Binding CreateNewNoteCommand}"
+                                ToolTip="New Note" FontSize="16"
+                                Width="36" Height="36" Margin="2,0"/>
+                        <Button Content="⚙️" Style="{StaticResource IconButton}"
+                                Click="SettingsButton_Click"
+                                ToolTip="Settings" FontSize="16"
+                                Width="36" Height="36" Margin="2,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- ── Settings Overlay (fixed size, centered, sibling to MainBorder) -->
+        <Grid x:Name="SettingsOverlay"
+              Visibility="Collapsed"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Width="380" Height="360"
+              Panel.ZIndex="100">
+            <Border Background="White" CornerRadius="16" BorderThickness="0">
+                <Border.Effect>
+                    <DropShadowEffect Color="#000000" BlurRadius="32"
+                                      ShadowDepth="6" Opacity="0.22" Direction="270"/>
+                </Border.Effect>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Settings Header — drag moves the MAIN window -->
+                    <Grid Grid.Row="0" Margin="24,24,16,8"
+                          MouseLeftButtonDown="SettingsHeader_MouseLeftButtonDown"
+                          Cursor="SizeAll">
+                        <TextBlock Text="Settings" FontSize="26" FontWeight="Bold"
+                                   Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                        <Button Content="✕" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                Width="32" Height="32" Click="SettingsCloseButton_Click"
+                                Cursor="Hand" FontSize="14">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Foreground" Value="#888888"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="bg" Background="{TemplateBinding Background}" CornerRadius="8">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="bg" Property="Background" Value="#F0F0F0"/>
+                                                        <Setter Property="Foreground" Value="#333333"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+
+                    <!-- Tab Bar -->
+                    <Border Grid.Row="1" Margin="0,10,0,0">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="16,0">
+                                <Button x:Name="SO_TabGeneral" Click="SOTab_Click" Tag="General" Margin="0,0,12,0">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                            <Setter Property="Padding" Value="8,10"/>
+                                            <Setter Property="Foreground" Value="#888888"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="⚙" FontSize="14" VerticalAlignment="Center" Margin="0,0,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                            <TextBlock Text="General" FontSize="14" VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                        </StackPanel>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                                <Button x:Name="SO_TabColors" Click="SOTab_Click" Tag="Colors" Margin="12,0">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                            <Setter Property="Padding" Value="8,10"/>
+                                            <Setter Property="Foreground" Value="#888888"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="🎨" FontSize="14" VerticalAlignment="Center" Margin="0,0,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                            <TextBlock Text="Colors" FontSize="14" VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                        </StackPanel>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                                <Button x:Name="SO_TabFont" Click="SOTab_Click" Tag="Font" Margin="12,0">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                            <Setter Property="Padding" Value="8,10"/>
+                                            <Setter Property="Foreground" Value="#888888"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="𝐀" FontSize="14" VerticalAlignment="Center" Margin="0,0,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                            <TextBlock Text="Font" FontSize="14" VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                        </StackPanel>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                                <Button x:Name="SO_TabAbout" Click="SOTab_Click" Tag="About" Margin="12,0">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                            <Setter Property="Padding" Value="8,10"/>
+                                            <Setter Property="Foreground" Value="#888888"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="ℹ" FontSize="14" VerticalAlignment="Center" Margin="0,0,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                            <TextBlock Text="About" FontSize="14" VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                        </StackPanel>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </StackPanel>
+                            <Grid Margin="16,0,16,0" Height="3">
+                                <Rectangle Fill="#E8E8E8" RadiusX="2" RadiusY="2"/>
+                                <Rectangle x:Name="SO_TabUnderline" Fill="#FFD700"
+                                           RadiusX="2" RadiusY="2"
+                                           HorizontalAlignment="Left" Width="60"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Tab Content -->
+                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="16,12,16,16">
+                        <Grid>
+                            <StackPanel x:Name="SO_PanelGeneral">
+                                <TextBlock Text="Transparency:" FontWeight="SemiBold" FontSize="13" Foreground="#1A1A1A" Margin="0,0,0,8"/>
+                                <Slider x:Name="SO_TransparencySlider" Minimum="0.1" Maximum="1.0" Value="1.0" SmallChange="0.05" LargeChange="0.1"/>
+                                <TextBlock x:Name="SO_TransparencyLabel" Text="100%" FontSize="12" Foreground="#666666" Margin="0,4,0,12"/>
+                                <CheckBox x:Name="SO_AlwaysOnTopCheckBox" Content="Always on top" FontSize="13" Foreground="#1A1A1A"/>
+                            </StackPanel>
+
+                            <StackPanel x:Name="SO_PanelColors" Visibility="Collapsed">
+                                <TextBlock Text="Background Color:" FontWeight="SemiBold" FontSize="13" Foreground="#1A1A1A" Margin="0,0,0,8"/>
+                                <ComboBox x:Name="SO_BackgroundColorComboBox" Margin="0,0,0,16">
+                                    <ComboBoxItem Tag="White" Content="White" IsSelected="True"/>
+                                    <ComboBoxItem Tag="Cream" Content="Cream"/>
+                                    <ComboBoxItem Tag="Black" Content="Black"/>
+                                    <ComboBoxItem Tag="Light Gray" Content="Light Gray"/>
+                                    <ComboBoxItem Tag="Light Blue" Content="Light Blue"/>
+                                    <ComboBoxItem Tag="Light Green" Content="Light Green"/>
+                                    <ComboBoxItem Tag="Light Pink" Content="Light Pink"/>
+                                    <ComboBoxItem Tag="Light Yellow" Content="Light Yellow"/>
+                                </ComboBox>
+                                <TextBlock Text="Text Color:" FontWeight="SemiBold" FontSize="13" Foreground="#1A1A1A" Margin="0,0,0,8"/>
+                                <ComboBox x:Name="SO_TextColorComboBox">
+                                    <ComboBoxItem Tag="Black" Content="Black" IsSelected="True"/>
+                                    <ComboBoxItem Tag="Dark Gray" Content="Dark Gray"/>
+                                    <ComboBoxItem Tag="Gray" Content="Gray"/>
+                                    <ComboBoxItem Tag="White" Content="White"/>
+                                    <ComboBoxItem Tag="Dark Blue" Content="Dark Blue"/>
+                                    <ComboBoxItem Tag="Dark Green" Content="Dark Green"/>
+                                    <ComboBoxItem Tag="Dark Red" Content="Dark Red"/>
+                                    <ComboBoxItem Tag="Purple" Content="Purple"/>
+                                </ComboBox>
+                            </StackPanel>
+
+                            <StackPanel x:Name="SO_PanelFont" Visibility="Collapsed">
+                                <TextBlock Text="Font Size:" FontWeight="SemiBold" FontSize="13" Foreground="#1A1A1A" Margin="0,0,0,8"/>
+                                <Slider x:Name="SO_FontSizeSlider" Minimum="10" Maximum="24" Value="14" SmallChange="1" LargeChange="2"/>
+                                <TextBlock x:Name="SO_FontSizeLabel" Text="14px" FontSize="12" Foreground="#666666" Margin="0,4,0,12"/>
+                                <TextBlock Text="Font Family:" FontWeight="SemiBold" FontSize="13" Foreground="#1A1A1A" Margin="0,0,0,8"/>
+                                <ComboBox x:Name="SO_FontFamilyComboBox">
+                                    <ComboBoxItem Tag="Segoe UI" Content="Segoe UI" IsSelected="True"/>
+                                    <ComboBoxItem Tag="Arial" Content="Arial"/>
+                                    <ComboBoxItem Tag="Calibri" Content="Calibri"/>
+                                    <ComboBoxItem Tag="Georgia" Content="Georgia"/>
+                                    <ComboBoxItem Tag="Consolas" Content="Consolas"/>
+                                </ComboBox>
+                            </StackPanel>
+
+                            <StackPanel x:Name="SO_PanelAbout" Visibility="Collapsed">
+                                <TextBlock Text="Lucid Notes" FontWeight="Bold" FontSize="16" Foreground="#1A1A1A" Margin="0,0,0,8"/>
+                                <TextBlock Text="Version 1.0.0" FontSize="13" Foreground="#666666" Margin="0,0,0,4"/>
+                                <TextBlock Text="A lightweight, transparent note-taking app." FontSize="13" Foreground="#666666" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+
+    </Grid>
+</Window>
