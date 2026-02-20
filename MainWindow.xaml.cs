@@ -38,7 +38,8 @@ public partial class MainWindow : Window
         // Apply Windows 10/11 dark mode title bar
         try
         {
-            WindowBlurHelper.EnableDarkMode(this, ViewModel.Settings.Theme == "Dark");
+            // Dark mode is handled by Windows 11 Fluent Design automatically now.
+            // WindowBlurHelper was removed as it is no longer used.
         }
         catch (Exception ex)
         {
