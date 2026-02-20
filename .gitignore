@@ -28,3 +28,5 @@ ARM64/
 ## OS generated files
 Thumbs.db
 Desktop.ini
+.agent/rules/snyk_rules.md
+.vscode/settings.json
