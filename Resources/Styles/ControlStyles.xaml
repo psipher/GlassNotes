@@ -271,6 +271,69 @@
         </Setter>
     </Style>
 
+    <!-- Modern ContextMenu Style -->
+    <Style TargetType="ContextMenu">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="BorderBrush" Value="#E2E2E2" />
+        <Setter Property="Foreground" Value="#1A1A1A" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContextMenu">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="8"
+                            Margin="8">
+                        <Border.Effect>
+                            <DropShadowEffect Color="#000000" BlurRadius="16" ShadowDepth="3" Opacity="0.12"/>
+                        </Border.Effect>
+                        <ScrollViewer Margin="4,4" SnapsToDevicePixels="True">
+                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Resources>
+            <Style TargetType="MenuItem">
+                <Setter Property="Padding" Value="12,6"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="#1A1A1A"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="MenuItem">
+                            <Border x:Name="bd"
+                                    Background="{TemplateBinding Background}"
+                                    CornerRadius="6"
+                                    Margin="2,1"
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsHighlighted" Value="True">
+                                    <Setter TargetName="bd" Property="Background" Value="#F2F2F2"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Foreground" Value="#A0A0A0"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="Separator">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Separator">
+                            <Border Background="#E2E2E2" Height="1" Margin="12,4,12,4"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
+    </Style>
 
 </ResourceDictionary>
-

@@ -1,7 +1,6 @@
 # Lucid Notes
 
-![Lucid Notes Screenshot](Assets/screenshot.png)
-
+![Lucid Notes Homepage](Assets/screenshots/homepage.png)
 A modern, lightweight note-taking application for Windows 10/11 with transparent overlay functionality.
 
 ## Features
@@ -11,6 +10,7 @@ A modern, lightweight note-taking application for Windows 10/11 with transparent
 - **Adjustable Transparency** - Set the perfect opacity level (30%-100%)
 - **Hide Notes** - Quickly toggle the visibility of all your notes to declutter your workspace
 - **Multiple Notes** - Create and manage multiple notes with quick switching
+  ![Multiple Tabs Example](Assets/screenshots/open_multiple_tabs.png)
 - **Auto-Save** - Your notes are automatically saved every 3 seconds
 - **Clean, Modern Interface** - Built with Windows Fluent Design principles
 - **Lightweight & Fast** - Minimal resource usage, instant startup
@@ -66,6 +66,7 @@ The executable will be in: `bin\Release\net10.0-windows\LucidNotes.exe`
 
 ### Settings
 
+![Settings Menu](Assets/screenshots/settings.png)
 - **Opacity**: Adjust window transparency (10%-100%)
 - **Font Size**: Change text size (10-24pt)
 - **Theme**: Switch between Light and Dark modes
