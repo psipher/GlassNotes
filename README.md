@@ -24,7 +24,6 @@ A modern, lightweight note-taking application for Windows 10/11 with transparent
 ### Prerequisites
 
 - .NET 10.0 SDK
-- Visual Studio 2022 (recommended) or Visual Studio Code
 
 ### Build Instructions
 
@@ -65,7 +64,7 @@ The executable will be in: `bin\Release\net10.0-windows\LucidNotes.exe`
 
 ### Settings
 
-- **Opacity**: Adjust window transparency (30%-100%)
+- **Opacity**: Adjust window transparency (10%-100%)
 - **Font Size**: Change text size (10-24pt)
 - **Theme**: Switch between Light and Dark modes
 - **Always on Top**: Toggle whether window stays above other windows
