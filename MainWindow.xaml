@@ -248,7 +248,7 @@
                     <!-- Note Content Area -->
                     <Grid Grid.Column="1" Margin="8" ClipToBounds="True">
                         <TextBox x:Name="NoteTextBox"
-                                 Text="{Binding CurrentNote.Content, UpdateSourceTrigger=PropertyChanged}"
+                                 Text="{Binding CurrentNoteContent, UpdateSourceTrigger=PropertyChanged}"
                                  lucidHelpers:SearchHighlightBehavior.SearchText="{Binding SearchText}"
                                  AcceptsReturn="True" TextWrapping="Wrap"
                                  BorderThickness="0" Background="Transparent"

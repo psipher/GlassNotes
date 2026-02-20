@@ -1,5 +1,7 @@
 # Lucid Notes
 
+![Lucid Notes Screenshot](Assets/screenshot.png)
+
 A modern, lightweight note-taking application for Windows 10/11 with transparent overlay functionality.
 
 ## Features
@@ -107,3 +109,4 @@ This project is open source and available for personal and commercial use.
 ## Contributing
 
 Contributions are welcome! Feel free to submit issues and pull requests.
+
