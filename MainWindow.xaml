@@ -9,6 +9,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         ResizeMode="CanResizeWithGrip"
+        Icon="Assets/icon.ico"
         SourceInitialized="MainWindow_SourceInitialized">
 
     <Window.Resources>
@@ -271,6 +272,10 @@
                         <Button Content="⚙️" Style="{StaticResource IconButton}"
                                 Click="SettingsButton_Click"
                                 ToolTip="Settings" FontSize="16"
+                                Width="36" Height="36" Margin="2,0"/>
+                        <Button Content="👁️" Style="{StaticResource IconButton}"
+                                Command="{Binding ToggleAllNotesVisibilityCommand}"
+                                ToolTip="Hide/Unhide all notes (Ctrl + Shift + Z)" FontSize="16"
                                 Width="36" Height="36" Margin="2,0"/>
                     </StackPanel>
                 </Border>

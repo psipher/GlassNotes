@@ -41,6 +41,9 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private bool _isSettingsPanelOpen;
 
+    [ObservableProperty]
+    private bool _areNotesVisible = true;
+
     public MainViewModel()
     {
         _noteService = new NoteService();
@@ -225,6 +228,29 @@ public partial class MainViewModel : ObservableObject
     private void ToggleSettingsPanel()
     {
         IsSettingsPanelOpen = !IsSettingsPanelOpen;
+    }
+
+    [RelayCommand]
+    public void ToggleAllNotesVisibility()
+    {
+        AreNotesVisible = !AreNotesVisible;
+        
+        foreach (System.Windows.Window window in System.Windows.Application.Current.Windows)
+        {
+            if (window is MainWindow || window is NoteWindow)
+            {
+                if (AreNotesVisible)
+                {
+                    window.Show();
+                    // Optional: Bring to front when unhiding
+                    if (window.Topmost) window.Topmost = true; 
+                }
+                else
+                {
+                    window.Hide();
+                }
+            }
+        }
     }
 
     public void SaveSettings()

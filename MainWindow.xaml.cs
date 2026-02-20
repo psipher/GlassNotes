@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using LucidNotes.Helpers;
 using LucidNotes.ViewModels;
@@ -14,6 +15,7 @@ namespace LucidNotes;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private const int HOTKEY_ID = 9000;
     private MainViewModel ViewModel => (MainViewModel)DataContext;
 
     public MainWindow()
@@ -42,6 +44,23 @@ public partial class MainWindow : Window
         {
             System.Diagnostics.Debug.WriteLine($"Error applying dark mode: {ex.Message}");
         }
+
+        // Register global hotkey Ctrl + Shift + Z
+        if (PresentationSource.FromVisual(this) is HwndSource source)
+        {
+            source.AddHook(HwndHook);
+            GlobalHotkeyHelper.RegisterHotKey(source, HOTKEY_ID, ModifierKeys.Control | ModifierKeys.Shift, Key.Z);
+        }
+    }
+
+    private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+        if (msg == GlobalHotkeyHelper.WM_HOTKEY && wParam.ToInt32() == HOTKEY_ID)
+        {
+            ViewModel.ToggleAllNotesVisibilityCommand.Execute(null);
+            handled = true;
+        }
+        return IntPtr.Zero;
     }
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -76,6 +95,13 @@ public partial class MainWindow : Window
         
         // Cleanup ViewModel
         ViewModel.Cleanup();
+
+        // Unregister global hotkey
+        if (PresentationSource.FromVisual(this) is HwndSource source)
+        {
+            GlobalHotkeyHelper.UnregisterHotKey(source, HOTKEY_ID);
+            source.RemoveHook(HwndHook);
+        }
     }
 
     private void LoadWindowState()

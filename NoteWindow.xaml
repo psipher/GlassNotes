@@ -8,6 +8,7 @@
         Background="Transparent"
         ResizeMode="CanResize"
         Topmost="True"
+        Icon="Assets/icon.ico"
         SourceInitialized="Window_SourceInitialized">
 
     <Border x:Name="OuterBorder"

@@ -4,14 +4,15 @@ A modern, lightweight note-taking application for Windows 10/11 with transparent
 
 ## Features
 
-✨ **Always On Top** - Keep your notes visible while working in other applications  
-🎨 **Customizable Appearance** - Choose between light and dark themes  
-👁️ **Adjustable Transparency** - Set the perfect opacity level (30%-100%)  
-📝 **Multiple Notes** - Create and manage multiple notes with quick switching  
-💾 **Auto-Save** - Your notes are automatically saved every 3 seconds  
-🎯 **Clean, Modern Interface** - Built with Windows Fluent Design principles  
-⚡ **Lightweight & Fast** - Minimal resource usage, instant startup  
-🖥️ **Resizable Windows** - Adjust size and position to fit your workflow  
+- **Always On Top** - Keep your notes visible while working in other applications
+- **Customizable Appearance** - Choose between light and dark themes
+- **Adjustable Transparency** - Set the perfect opacity level (30%-100%)
+- **Hide Notes** - Quickly toggle the visibility of all your notes to declutter your workspace
+- **Multiple Notes** - Create and manage multiple notes with quick switching
+- **Auto-Save** - Your notes are automatically saved every 3 seconds
+- **Clean, Modern Interface** - Built with Windows Fluent Design principles
+- **Lightweight & Fast** - Minimal resource usage, instant startup
+- **Resizable Windows** - Adjust size and position to fit your workflow
 
 ## Requirements
 
@@ -56,9 +57,10 @@ The executable will be in: `bin\Release\net10.0-windows\LucidNotes.exe`
 ### Basic Controls
 
 - **Drag the title bar** to move the window
+- **Hide/Show Notes** by clicking the eye icon or pressing `Ctrl + Shift + Z`
 - **Click the gear icon** to open settings
-- **Click ➕ New** to create a new note
-- **Click 🗑️ Delete** to delete the current note
+- **Click New** to create a new note
+- **Click Delete** to delete the current note
 - **Type directly** in the text area - changes auto-save
 
 ### Settings
