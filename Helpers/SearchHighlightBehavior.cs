@@ -28,7 +28,7 @@ namespace LucidNotes.Helpers
         {
             if (d is TextBox textBox)
             {
-                string newSearchText = e.NewValue as string;
+                string? newSearchText = e.NewValue as string;
 
                 if (!textBox.IsLoaded)
                 {
@@ -42,13 +42,13 @@ namespace LucidNotes.Helpers
             }
         }
 
-        private static void AttachAdorner(TextBox textBox, string searchText)
+        private static void AttachAdorner(TextBox textBox, string? searchText)
         {
-            AdornerLayer layer = AdornerLayer.GetAdornerLayer(textBox);
+            AdornerLayer? layer = AdornerLayer.GetAdornerLayer(textBox);
             if (layer == null) return;
 
             // Find existing adorner
-            SearchHighlightAdorner existingAdorner = null;
+            SearchHighlightAdorner? existingAdorner = null;
             var adorners = layer.GetAdorners(textBox);
             if (adorners != null)
             {
@@ -73,11 +73,11 @@ namespace LucidNotes.Helpers
             else
             {
                 // Update or create
-                if (existingAdorner != null)
+                if (existingAdorner != null && searchText != null)
                 {
                     existingAdorner.UpdateSearchText(searchText);
                 }
-                else
+                else if (searchText != null)
                 {
                     var newAdorner = new SearchHighlightAdorner(textBox, searchText);
                     layer.Add(newAdorner);
