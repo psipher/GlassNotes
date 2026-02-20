@@ -28,9 +28,6 @@ public partial class MainViewModel : ObservableObject
     private Note? _currentNote;
 
     [ObservableProperty]
-    private string _currentNoteContent = string.Empty;
-
-    [ObservableProperty]
     private AppSettings _settings = new();
 
     [ObservableProperty]
@@ -101,43 +98,44 @@ public partial class MainViewModel : ObservableObject
         }
 
         CurrentNote ??= Notes.FirstOrDefault();
-
-        if (CurrentNote != null)
-        {
-            CurrentNoteContent = CurrentNote.Content;
-        }
     }
 
-    partial void OnCurrentNoteContentChanged(string value)
-    {
-        if (CurrentNote != null)
-        {
-            CurrentNote.Content = value;
-            
-            // Update title based on first line of content
-            var firstLine = value.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
-            if (!string.IsNullOrWhiteSpace(firstLine))
-            {
-                CurrentNote.Title = firstLine.Length > 30 ? firstLine.Substring(0, 30) + "..." : firstLine;
-            }
-            else
-            {
-                CurrentNote.Title = "Untitled Note";
-            }
-            
-            // Restart auto-save timer
-            _autoSaveTimer.Stop();
-            _autoSaveTimer.Start();
-        }
-    }
-
+    private Note? _previousNote;
     partial void OnCurrentNoteChanged(Note? value)
     {
+        if (_previousNote != null)
+        {
+            _previousNote.PropertyChanged -= CurrentNote_PropertyChanged;
+        }
+
         if (value != null)
         {
-            CurrentNoteContent = value.Content;
+            value.PropertyChanged += CurrentNote_PropertyChanged;
             Settings.LastOpenedNoteId = value.Id;
             SaveSettings();
+        }
+        _previousNote = value;
+    }
+
+    private void CurrentNote_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(Note.Content))
+        {
+            if (CurrentNote != null)
+            {
+                var firstLine = CurrentNote.Content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+                if (!string.IsNullOrWhiteSpace(firstLine))
+                {
+                    CurrentNote.Title = firstLine.Length > 30 ? firstLine.Substring(0, 30) + "..." : firstLine;
+                }
+                else
+                {
+                    CurrentNote.Title = "Untitled Note";
+                }
+                
+                _autoSaveTimer.Stop();
+                _autoSaveTimer.Start();
+            }
         }
     }
 
@@ -263,5 +261,10 @@ public partial class MainViewModel : ObservableObject
         _autoSaveTimer.Stop();
         SaveCurrentNote();
         SaveSettings();
+        
+        foreach (var window in _openNoteWindows.Values.ToList())
+        {
+            window.Close();
+        }
     }
 }
