@@ -184,7 +184,6 @@
                                         <MenuItem Header="Open in New Window" 
                                                   Command="{Binding DataContext.OpenNoteInNewWindowCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                   CommandParameter="{Binding}"/>
-                                        <Separator/>
                                         <MenuItem Header="Delete" Command="{Binding DeleteCurrentNoteCommand}"/>
                                     </ContextMenu>
                                 </ListBox.ContextMenu>
@@ -193,18 +192,18 @@
                                         <Border x:Name="NoteItemBorder"
                                                 Background="{DynamicResource NoteItemBackgroundBrush}"
                                                 Padding="10,8" Margin="2,2"
-                                                CornerRadius="10"
+                                                CornerRadius="8"
                                                 BorderThickness="1.5"
                                                 BorderBrush="Transparent">
                                             <StackPanel>
-                                                <TextBlock Text="{Binding Title}"
+                                                <TextBlock x:Name="TitleText" Text="{Binding Title}"
                                                            Foreground="{DynamicResource TextPrimaryBrush}"
                                                            FontSize="13"
                                                            FontFamily="{Binding DataContext.Settings.FontFamily, RelativeSource={RelativeSource AncestorType=Window}}"
                                                            FontWeight="SemiBold"
                                                            TextTrimming="CharacterEllipsis"/>
                                                 <Grid>
-                                                    <TextBlock Text="{Binding ModifiedAt, StringFormat='Modified {0:M/d/yyyy h:mm tt}'}"
+                                                    <TextBlock x:Name="DateText" Text="{Binding ModifiedAt, StringFormat='Modified {0:M/d/yyyy h:mm tt}'}"
                                                                Foreground="{DynamicResource TextSecondaryBrush}"
                                                                FontSize="10"
                                                                FontFamily="{Binding DataContext.Settings.FontFamily, RelativeSource={RelativeSource AncestorType=Window}}"
@@ -235,8 +234,10 @@
                                         </Border>
                                         <DataTemplate.Triggers>
                                             <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
-                                                <Setter TargetName="NoteItemBorder" Property="BorderBrush" Value="#FFD700"/>
-                                                <Setter TargetName="NoteItemBorder" Property="Background" Value="{DynamicResource NoteItemSelectedBackgroundBrush}"/>
+                                                <Setter TargetName="NoteItemBorder" Property="BorderBrush" Value="#E2E2E2"/>
+                                                <Setter TargetName="NoteItemBorder" Property="Background" Value="White"/>
+                                                <Setter TargetName="TitleText" Property="Foreground" Value="#1A1A1A"/>
+                                                <Setter TargetName="DateText" Property="Foreground" Value="#666666"/>
                                             </DataTrigger>
                                         </DataTemplate.Triggers>
                                     </DataTemplate>
