@@ -1,6 +1,7 @@
 # Lucid Notes
 
 ![Lucid Notes Homepage](Assets/screenshots/homepage.png)
+
 A modern, lightweight note-taking application for Windows 10/11 with transparent overlay functionality.
 
 ## Features
