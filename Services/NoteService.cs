@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Newtonsoft.Json;
 using LucidNotes.Models;
+using Newtonsoft.Json;
 
 namespace LucidNotes.Services;
 
@@ -34,7 +31,7 @@ public class NoteService
         try
         {
             var noteFiles = Directory.GetFiles(NotesFolder, "*.json");
-            
+
             foreach (var file in noteFiles)
             {
                 try

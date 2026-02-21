@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -41,12 +39,12 @@ public partial class SettingsWindow : Window
     private void PositionOverMainWindow()
     {
         // Center settings over the main window
-        Left = _mainWindow.Left + (_mainWindow.ActualWidth  - ActualWidth)  / 2;
-        Top  = _mainWindow.Top  + (_mainWindow.ActualHeight - ActualHeight) / 2;
+        Left = _mainWindow.Left + (_mainWindow.ActualWidth - ActualWidth) / 2;
+        Top = _mainWindow.Top + (_mainWindow.ActualHeight - ActualHeight) / 2;
 
         // Clamp so it never goes off-screen
         Left = Math.Max(0, Left);
-        Top  = Math.Max(0, Top);
+        Top = Math.Max(0, Top);
     }
 
     // ── Dragging the settings header moves THIS settings window ─────────────
@@ -71,11 +69,11 @@ public partial class SettingsWindow : Window
         {
             bool active = name == tabName;
             panel.Visibility = active ? Visibility.Visible : Visibility.Collapsed;
-            
+
             btn.Foreground = active
                 ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0x1A, 0x1A, 0x1A))
                 : new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0x66, 0x66));
-            
+
             btn.FontWeight = active ? FontWeights.Bold : FontWeights.Normal;
         }
 
@@ -96,8 +94,8 @@ public partial class SettingsWindow : Window
         UpdateFontSizeLabel();
 
         SelectComboItem(BackgroundColorComboBox, _viewModel.Settings.BackgroundColor);
-        SelectComboItem(TextColorComboBox,       _viewModel.Settings.TextColor);
-        SelectComboItem(FontFamilyComboBox,      _viewModel.Settings.FontFamily);
+        SelectComboItem(TextColorComboBox, _viewModel.Settings.TextColor);
+        SelectComboItem(FontFamilyComboBox, _viewModel.Settings.FontFamily);
     }
 
     private static void SelectComboItem(ComboBox box, string? value)
@@ -119,10 +117,10 @@ public partial class SettingsWindow : Window
         {
             _viewModel.Settings.Opacity = e.NewValue;
             UpdateTransparencyLabel();
-            
+
             // Call the correct MainWindow method that applies opacity only to the background brush
             _mainWindow.UpdateOpacity(e.NewValue);
-            
+
             _viewModel.SaveSettings();
         };
 

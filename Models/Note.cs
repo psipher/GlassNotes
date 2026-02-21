@@ -1,4 +1,3 @@
-using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace LucidNotes.Models;
@@ -9,10 +8,10 @@ namespace LucidNotes.Models;
 public partial class Note : ObservableObject
 {
     public Guid Id { get; set; }
-    
+
     [ObservableProperty]
     private string _title = "Untitled Note";
-    
+
     [ObservableProperty]
     private string _content = string.Empty;
 

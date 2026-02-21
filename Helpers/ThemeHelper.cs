@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
@@ -16,11 +14,11 @@ public static class ThemeHelper
     public static void ApplyTheme(string theme)
     {
         var app = Application.Current;
-        
+
         // Remove existing theme dictionaries
         var existingTheme = app.Resources.MergedDictionaries
             .FirstOrDefault(d => d.Source?.OriginalString.Contains("Themes/") == true);
-        
+
         if (existingTheme != null)
         {
             app.Resources.MergedDictionaries.Remove(existingTheme);
