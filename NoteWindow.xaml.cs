@@ -59,16 +59,15 @@ namespace LucidNotes
             SaveNote();
         }
 
-        private void ApplySettings(AppSettings settings)
+        public void ApplySettings(AppSettings settings)
         {
             // Colors
             var bgBrush = ColorHelper.GetBackgroundBrush(settings.BackgroundColor);
+            bgBrush.Opacity = settings.Opacity;
+            
             var textBrush = ColorHelper.GetTextBrush(settings.TextColor);
             Resources["NoteBackgroundBrush"] = bgBrush;
             Resources["NoteForegroundBrush"] = textBrush;
-
-            // Transparency
-            OuterBorder.Opacity = settings.Opacity;
 
             // Always on Top
             Topmost = settings.AlwaysOnTop;

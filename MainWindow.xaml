@@ -24,7 +24,7 @@
         
         <!-- Main App Content - Opacity is applied here -->
         <Border x:Name="MainBorder"
-                Background="{DynamicResource WindowBackgroundBrush}"
+                Background="Transparent"
                 BorderBrush="{DynamicResource BorderBrush}"
                 BorderThickness="1"
                 CornerRadius="16">

@@ -72,11 +72,7 @@ public partial class MainWindow : Window
         // Set always on top
         Topmost = ViewModel.Settings.AlwaysOnTop;
         
-        // Set initial opacity
-        if (MainBorder != null)
-        {
-            MainBorder.Opacity = ViewModel.Settings.Opacity;
-        }
+        // Set initial opacity handled in InitializeComboBoxes -> ApplyBackgroundColor
         
         // Initialize ComboBoxes
         InitializeComboBoxes();
@@ -310,7 +306,7 @@ public partial class MainWindow : Window
         {
             ViewModel.Settings.Opacity = e.NewValue;
             SO_TransparencyLabel.Text  = $"{(int)(e.NewValue * 100)}%";
-            MainBorder.Opacity = e.NewValue;
+            ApplyBackgroundColor(ViewModel.Settings.BackgroundColor);
             ViewModel.SaveSettings();
         };
 
@@ -358,7 +354,8 @@ public partial class MainWindow : Window
     
     public void UpdateOpacity(double opacity)
     {
-        this.Opacity = opacity;
+        ViewModel.Settings.Opacity = opacity;
+        ApplyBackgroundColor(ViewModel.Settings.BackgroundColor);
     }
     
     public void UpdateBackgroundColor(string colorName)
@@ -374,6 +371,7 @@ public partial class MainWindow : Window
     private void ApplyBackgroundColor(string colorName)
     {
         var brush = Helpers.ColorHelper.GetBackgroundBrush(colorName);
+        brush.Opacity = ViewModel.Settings.Opacity;
         
         // Apply to the main content grid
         var grid = this.FindName("ContentGrid") as Grid;
