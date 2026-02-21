@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -18,10 +17,10 @@ namespace LucidNotes.Helpers
         public static void RegisterHotKey(HwndSource source, int id, ModifierKeys modifiers, Key key)
         {
             if (source == null) return;
-            
+
             uint mod = (uint)modifiers;
             uint vk = (uint)KeyInterop.VirtualKeyFromKey(key);
-            
+
             RegisterHotKey(source.Handle, id, mod, vk);
         }
 

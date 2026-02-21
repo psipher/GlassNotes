@@ -1,8 +1,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -83,12 +81,12 @@ public partial class MainViewModel : ObservableObject
     private void LoadNotes()
     {
         var loadedNotes = _noteService.LoadAllNotes();
-        
+
         // Sort notes based on settings
         var sortedNotes = Settings.NoteSortOrder == "OldestFirst"
             ? loadedNotes.OrderBy(n => n.ModifiedAt).ToList()
             : loadedNotes.OrderByDescending(n => n.ModifiedAt).ToList();
-        
+
         Notes = new ObservableCollection<Note>(sortedNotes);
 
         // Select the last opened note or the first note
@@ -132,7 +130,7 @@ public partial class MainViewModel : ObservableObject
                 {
                     CurrentNote.Title = "Untitled Note";
                 }
-                
+
                 _autoSaveTimer.Stop();
                 _autoSaveTimer.Start();
             }
@@ -172,7 +170,7 @@ public partial class MainViewModel : ObservableObject
         {
             Notes.Insert(0, newNote); // Add at top for newest first
         }
-        
+
         CurrentNote = newNote;
         _noteService.SaveNote(newNote);
     }
@@ -184,10 +182,10 @@ public partial class MainViewModel : ObservableObject
         {
             var noteToDelete = CurrentNote;
             var index = Notes.IndexOf(noteToDelete);
-            
+
             // Remove the note first
             Notes.Remove(noteToDelete);
-            
+
             // Select another note - if we deleted the last one, select the new last one
             // Otherwise select the note at the same index (which is now the next note)
             if (index >= Notes.Count)
@@ -198,7 +196,7 @@ public partial class MainViewModel : ObservableObject
             {
                 CurrentNote = Notes[index];
             }
-            
+
             _noteService.DeleteNote(noteToDelete.Id);
         }
     }
@@ -217,7 +215,7 @@ public partial class MainViewModel : ObservableObject
 
         var noteWindow = new NoteWindow(note, Settings);
         _openNoteWindows[note.Id] = noteWindow;
-        
+
         noteWindow.Closed += (s, e) => _openNoteWindows.Remove(note.Id);
         noteWindow.Show();
     }
@@ -232,7 +230,7 @@ public partial class MainViewModel : ObservableObject
     public void ToggleAllNotesVisibility()
     {
         AreNotesVisible = !AreNotesVisible;
-        
+
         foreach (System.Windows.Window window in System.Windows.Application.Current.Windows)
         {
             if (window is MainWindow || window is NoteWindow)
@@ -241,7 +239,7 @@ public partial class MainViewModel : ObservableObject
                 {
                     window.Show();
                     // Optional: Bring to front when unhiding
-                    if (window.Topmost) window.Topmost = true; 
+                    if (window.Topmost) window.Topmost = true;
                 }
                 else
                 {
@@ -265,7 +263,7 @@ public partial class MainViewModel : ObservableObject
         _autoSaveTimer.Stop();
         SaveCurrentNote();
         SaveSettings();
-        
+
         foreach (var window in _openNoteWindows.Values.ToList())
         {
             window.Close();

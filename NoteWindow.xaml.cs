@@ -1,6 +1,4 @@
-using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -64,7 +62,7 @@ namespace LucidNotes
             // Colors
             var bgBrush = ColorHelper.GetBackgroundBrush(settings.BackgroundColor);
             bgBrush.Opacity = settings.Opacity;
-            
+
             var textBrush = ColorHelper.GetTextBrush(settings.TextColor);
             Resources["NoteBackgroundBrush"] = bgBrush;
             Resources["NoteForegroundBrush"] = textBrush;

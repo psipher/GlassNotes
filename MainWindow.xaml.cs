@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
 using LucidNotes.Helpers;
 using LucidNotes.ViewModels;
 
@@ -22,10 +19,10 @@ public partial class MainWindow : Window
     {
         DataContext = new MainViewModel();
         InitializeComponent();
-        
+
         // Load saved window position and size
         LoadWindowState();
-        
+
         Loaded += MainWindow_Loaded;
         Closing += MainWindow_Closing;
     }
@@ -68,16 +65,16 @@ public partial class MainWindow : Window
     {
         // Apply theme
         ThemeHelper.ApplyTheme(ViewModel.Settings.Theme);
-        
+
         // Set always on top
         Topmost = ViewModel.Settings.AlwaysOnTop;
-        
+
         // Set initial opacity handled in InitializeComboBoxes -> ApplyBackgroundColor
-        
+
         // Initialize ComboBoxes
         InitializeComboBoxes();
     }
-    
+
     private void InitializeComboBoxes()
     {
         // Apply initial colors
@@ -89,7 +86,7 @@ public partial class MainWindow : Window
     {
         // Save window state
         SaveWindowState();
-        
+
         // Cleanup ViewModel
         ViewModel.Cleanup();
 
@@ -107,12 +104,12 @@ public partial class MainWindow : Window
 
         if (ViewModel.Settings.WindowWidth >= minW && ViewModel.Settings.WindowHeight >= minH)
         {
-            Width  = ViewModel.Settings.WindowWidth;
+            Width = ViewModel.Settings.WindowWidth;
             Height = ViewModel.Settings.WindowHeight;
         }
         else
         {
-            Width  = 680;
+            Width = 680;
             Height = 520;
         }
 
@@ -120,7 +117,7 @@ public partial class MainWindow : Window
         if (ViewModel.Settings.WindowLeft >= 0 && ViewModel.Settings.WindowTop >= 0)
         {
             Left = ViewModel.Settings.WindowLeft;
-            Top  = ViewModel.Settings.WindowTop;
+            Top = ViewModel.Settings.WindowTop;
         }
     }
 
@@ -218,25 +215,25 @@ public partial class MainWindow : Window
         _soActiveTab = tabName;
 
         SO_PanelGeneral.Visibility = tabName == "General" ? Visibility.Visible : Visibility.Collapsed;
-        SO_PanelColors.Visibility  = tabName == "Colors"  ? Visibility.Visible : Visibility.Collapsed;
-        SO_PanelFont.Visibility    = tabName == "Font"    ? Visibility.Visible : Visibility.Collapsed;
-        SO_PanelAbout.Visibility   = tabName == "About"   ? Visibility.Visible : Visibility.Collapsed;
+        SO_PanelColors.Visibility = tabName == "Colors" ? Visibility.Visible : Visibility.Collapsed;
+        SO_PanelFont.Visibility = tabName == "Font" ? Visibility.Visible : Visibility.Collapsed;
+        SO_PanelAbout.Visibility = tabName == "About" ? Visibility.Visible : Visibility.Collapsed;
 
-        var gray  = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0x88, 0x88, 0x88));
+        var gray = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0x88, 0x88, 0x88));
         var black = System.Windows.Media.Brushes.Black;
         SO_TabGeneral.Foreground = tabName == "General" ? black : gray;
-        SO_TabColors.Foreground  = tabName == "Colors"  ? black : gray;
-        SO_TabFont.Foreground    = tabName == "Font"    ? black : gray;
-        SO_TabAbout.Foreground   = tabName == "About"   ? black : gray;
+        SO_TabColors.Foreground = tabName == "Colors" ? black : gray;
+        SO_TabFont.Foreground = tabName == "Font" ? black : gray;
+        SO_TabAbout.Foreground = tabName == "About" ? black : gray;
 
         // Move underline
         Button? targetButton = tabName switch
         {
             "General" => SO_TabGeneral,
-            "Colors"  => SO_TabColors,
-            "Font"    => SO_TabFont,
-            "About"   => SO_TabAbout,
-            _         => null
+            "Colors" => SO_TabColors,
+            "Font" => SO_TabFont,
+            "About" => SO_TabAbout,
+            _ => null
         };
 
         if (targetButton != null)
@@ -250,13 +247,13 @@ public partial class MainWindow : Window
             // Calculate position relative to the first tab (General) to determine left offset
             // The tabs are in a StackPanel, so we can just use TranslatePoint relative to the first tab
             // Offset of General is 0.
-            
-            try 
+
+            try
             {
                 // We want the position relative to the container (StackPanel)
                 // The underline is in a generic Grid below, which shares the same left alignment as the StackPanel
                 // So the X position of the button within the StackPanel is the Left Margin for the underline.
-                
+
                 // Fallback for initial layout if needed
                 if (targetButton.ActualWidth == 0 && tabName == "General")
                 {
@@ -265,7 +262,7 @@ public partial class MainWindow : Window
                 }
                 else
                 {
-                     // Get parent stackpanel
+                    // Get parent stackpanel
                     var parent = System.Windows.Media.VisualTreeHelper.GetParent(targetButton) as UIElement;
                     if (parent != null)
                     {
@@ -275,7 +272,7 @@ public partial class MainWindow : Window
                     }
                 }
             }
-            catch 
+            catch
             {
                 // Fallback if visual tree is not ready
             }
@@ -285,13 +282,13 @@ public partial class MainWindow : Window
     private void SO_LoadSettings()
     {
         SO_TransparencySlider.Value = ViewModel.Settings.Opacity;
-        SO_TransparencyLabel.Text   = $"{(int)(ViewModel.Settings.Opacity * 100)}%";
+        SO_TransparencyLabel.Text = $"{(int)(ViewModel.Settings.Opacity * 100)}%";
         SO_AlwaysOnTopCheckBox.IsChecked = ViewModel.Settings.AlwaysOnTop;
         SO_FontSizeSlider.Value = ViewModel.Settings.FontSize;
-        SO_FontSizeLabel.Text   = $"{(int)ViewModel.Settings.FontSize}px";
+        SO_FontSizeLabel.Text = $"{(int)ViewModel.Settings.FontSize}px";
         SelectComboByTag(SO_BackgroundColorComboBox, ViewModel.Settings.BackgroundColor);
-        SelectComboByTag(SO_TextColorComboBox,       ViewModel.Settings.TextColor);
-        SelectComboByTag(SO_FontFamilyComboBox,      ViewModel.Settings.FontFamily);
+        SelectComboByTag(SO_TextColorComboBox, ViewModel.Settings.TextColor);
+        SelectComboByTag(SO_FontFamilyComboBox, ViewModel.Settings.FontFamily);
     }
 
     private static void SelectComboByTag(ComboBox box, string? value)
@@ -305,18 +302,18 @@ public partial class MainWindow : Window
         SO_TransparencySlider.ValueChanged += (s, e) =>
         {
             ViewModel.Settings.Opacity = e.NewValue;
-            SO_TransparencyLabel.Text  = $"{(int)(e.NewValue * 100)}%";
+            SO_TransparencyLabel.Text = $"{(int)(e.NewValue * 100)}%";
             ApplyBackgroundColor(ViewModel.Settings.BackgroundColor);
             ViewModel.SaveSettings();
         };
 
-        SO_AlwaysOnTopCheckBox.Checked   += (s, e) => { Topmost = true;  ViewModel.Settings.AlwaysOnTop = true;  ViewModel.SaveSettings(); };
+        SO_AlwaysOnTopCheckBox.Checked += (s, e) => { Topmost = true; ViewModel.Settings.AlwaysOnTop = true; ViewModel.SaveSettings(); };
         SO_AlwaysOnTopCheckBox.Unchecked += (s, e) => { Topmost = false; ViewModel.Settings.AlwaysOnTop = false; ViewModel.SaveSettings(); };
 
         SO_FontSizeSlider.ValueChanged += (s, e) =>
         {
             ViewModel.Settings.FontSize = e.NewValue;
-            SO_FontSizeLabel.Text       = $"{(int)e.NewValue}px";
+            SO_FontSizeLabel.Text = $"{(int)e.NewValue}px";
             ViewModel.SaveSettings();
         };
 
@@ -351,49 +348,49 @@ public partial class MainWindow : Window
             }
         };
     }
-    
+
     public void UpdateOpacity(double opacity)
     {
         ViewModel.Settings.Opacity = opacity;
         ApplyBackgroundColor(ViewModel.Settings.BackgroundColor);
     }
-    
+
     public void UpdateBackgroundColor(string colorName)
     {
         ApplyBackgroundColor(colorName);
     }
-    
+
     public void UpdateTextColor(string colorName)
     {
         ApplyTextColor(colorName);
     }
-    
+
     private void ApplyBackgroundColor(string colorName)
     {
         var brush = Helpers.ColorHelper.GetBackgroundBrush(colorName);
         brush.Opacity = ViewModel.Settings.Opacity;
-        
+
         // Apply to the main content grid
         var grid = this.FindName("ContentGrid") as Grid;
         if (grid != null)
         {
             grid.Background = brush;
         }
-        
+
         // Apply to sidebar
         var notesSidebar = this.FindName("NotesSidebar") as Border;
         if (notesSidebar != null)
         {
             notesSidebar.Background = brush;
         }
-        
+
         // Keep text editor transparent
         if (NoteTextBox != null)
         {
             NoteTextBox.Background = System.Windows.Media.Brushes.Transparent;
         }
     }
-    
+
     private void ApplyTextColor(string colorName)
     {
         if (NoteTextBox != null)
@@ -401,10 +398,10 @@ public partial class MainWindow : Window
             NoteTextBox.Foreground = Helpers.ColorHelper.GetTextBrush(colorName);
         }
     }
-    
+
     // Drag and drop support
     private Models.Note? _draggedNote;
-    
+
     private void NotesListBox_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
     {
         if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed && NotesListBox.SelectedItem is Models.Note note)
@@ -413,7 +410,7 @@ public partial class MainWindow : Window
             DragDrop.DoDragDrop(NotesListBox, note, DragDropEffects.Move);
         }
     }
-    
+
     private void NotesListBox_Drop(object sender, DragEventArgs e)
     {
         if (_draggedNote != null && e.Data.GetDataPresent(typeof(Models.Note)))
@@ -423,11 +420,11 @@ public partial class MainWindow : Window
             {
                 int oldIndex = ViewModel.Notes.IndexOf(_draggedNote);
                 int newIndex = ViewModel.Notes.IndexOf(targetItem);
-                
+
                 if (oldIndex != -1 && newIndex != -1)
                 {
                     ViewModel.Notes.Move(oldIndex, newIndex);
-                    
+
                     // Save custom order
                     ViewModel.Settings.CustomNoteOrder = ViewModel.Notes.Select(n => n.Id).ToList();
                     ViewModel.SaveSettings();
@@ -436,7 +433,7 @@ public partial class MainWindow : Window
             _draggedNote = null;
         }
     }
-    
+
     private Models.Note? GetNoteFromPoint(System.Windows.Point point)
     {
         var element = NotesListBox.InputHitTest(point) as DependencyObject;

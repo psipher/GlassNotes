@@ -1,8 +1,6 @@
-using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
-using System.Windows.Media;
 
 namespace LucidNotes.Helpers;
 
@@ -14,15 +12,15 @@ namespace LucidNotes.Helpers;
 /// </summary>
 public static class ResizeHelper
 {
-    private const int WM_NCHITTEST  = 0x0084;
-    private const int HTCLIENT      = 1;
-    private const int HTLEFT        = 10;
-    private const int HTRIGHT       = 11;
-    private const int HTTOP         = 12;
-    private const int HTTOPLEFT     = 13;
-    private const int HTTOPRIGHT    = 14;
-    private const int HTBOTTOM      = 15;
-    private const int HTBOTTOMLEFT  = 16;
+    private const int WM_NCHITTEST = 0x0084;
+    private const int HTCLIENT = 1;
+    private const int HTLEFT = 10;
+    private const int HTRIGHT = 11;
+    private const int HTTOP = 12;
+    private const int HTTOPLEFT = 13;
+    private const int HTTOPRIGHT = 14;
+    private const int HTBOTTOM = 15;
+    private const int HTBOTTOMLEFT = 16;
     private const int HTBOTTOMRIGHT = 17;
 
     // Resize border in physical pixels (≈8 logical px at 96 dpi)
@@ -50,21 +48,21 @@ public static class ResizeHelper
             // Get window rect in screen pixels
             if (!GetWindowRect(hwnd, out RECT r)) return IntPtr.Zero;
 
-            bool onLeft   = x < r.Left   + BorderPx;
-            bool onRight  = x > r.Right  - BorderPx;
-            bool onTop    = y < r.Top    + BorderPx;
+            bool onLeft = x < r.Left + BorderPx;
+            bool onRight = x > r.Right - BorderPx;
+            bool onTop = y < r.Top + BorderPx;
             bool onBottom = y > r.Bottom - BorderPx;
 
             int hit = HTCLIENT;
 
-            if      (onTop    && onLeft)  hit = HTTOPLEFT;
-            else if (onTop    && onRight) hit = HTTOPRIGHT;
-            else if (onBottom && onLeft)  hit = HTBOTTOMLEFT;
+            if (onTop && onLeft) hit = HTTOPLEFT;
+            else if (onTop && onRight) hit = HTTOPRIGHT;
+            else if (onBottom && onLeft) hit = HTBOTTOMLEFT;
             else if (onBottom && onRight) hit = HTBOTTOMRIGHT;
-            else if (onTop)               hit = HTTOP;
-            else if (onBottom)            hit = HTBOTTOM;
-            else if (onLeft)              hit = HTLEFT;
-            else if (onRight)             hit = HTRIGHT;
+            else if (onTop) hit = HTTOP;
+            else if (onBottom) hit = HTBOTTOM;
+            else if (onLeft) hit = HTLEFT;
+            else if (onRight) hit = HTRIGHT;
 
             if (hit != HTCLIENT)
             {

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -62,7 +60,7 @@ namespace LucidNotes.Helpers
             {
                 // Measure the exact character bounds
                 int endIndex = index + search.Length;
-                
+
                 // Ensure we do not go out of bounds (can happen during live typing)
                 if (endIndex > _textBox.Text.Length) break;
 

@@ -1,7 +1,6 @@
-using System;
 using System.IO;
-using Newtonsoft.Json;
 using LucidNotes.Models;
+using Newtonsoft.Json;
 
 namespace LucidNotes.Services;
 
@@ -14,7 +13,7 @@ public class SettingsService
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
         "LucidNotes"
     );
-    
+
     private static readonly string SettingsFilePath = Path.Combine(SettingsFolder, "settings.json");
 
     /// <summary>
