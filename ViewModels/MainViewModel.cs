@@ -254,6 +254,10 @@ public partial class MainViewModel : ObservableObject
     public void SaveSettings()
     {
         _settingsService.SaveSettings(Settings);
+        foreach (var window in _openNoteWindows.Values)
+        {
+            window.ApplySettings(Settings);
+        }
     }
 
     public void Cleanup()

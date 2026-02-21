@@ -119,8 +119,10 @@ public partial class SettingsWindow : Window
         {
             _viewModel.Settings.Opacity = e.NewValue;
             UpdateTransparencyLabel();
-            if (_mainWindow.MainBorder != null)
-                _mainWindow.MainBorder.Opacity = e.NewValue;
+            
+            // Call the correct MainWindow method that applies opacity only to the background brush
+            _mainWindow.UpdateOpacity(e.NewValue);
+            
             _viewModel.SaveSettings();
         };
 
