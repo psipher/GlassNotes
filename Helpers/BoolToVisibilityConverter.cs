@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace LucidNotes.Helpers;
+namespace GlassNotes.Helpers;
 
 /// <summary>
 /// Converts bool to Visibility

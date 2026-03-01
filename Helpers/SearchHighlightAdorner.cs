@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace LucidNotes.Helpers
+namespace GlassNotes.Helpers
 {
     public class SearchHighlightAdorner : Adorner
     {

@@ -1,6 +1,6 @@
-# Lucid Notes
+# Glass Notes
 
-![Lucid Notes Homepage](Assets/screenshots/homepage.png)
+![Glass Notes Homepage](Assets/screenshots/homepage.png)
 
 A modern, lightweight note-taking application for Windows 10/11 with transparent overlay functionality.
 
@@ -35,7 +35,7 @@ A modern, lightweight note-taking application for Windows 10/11 with transparent
 3. Run the following commands:
 
 ```powershell
-cd LucidNotes
+cd GlassNotes
 dotnet restore
 dotnet build
 ```
@@ -52,7 +52,7 @@ Or build a release version:
 dotnet build --configuration Release
 ```
 
-The executable will be in: `bin\Release\net10.0-windows\LucidNotes.exe`
+The executable will be in: `bin\Release\net10.0-windows\GlassNotes.exe`
 
 ## Usage
 
@@ -77,7 +77,7 @@ The executable will be in: `bin\Release\net10.0-windows\LucidNotes.exe`
 
 Notes and settings are stored in:
 ```
-%APPDATA%\LucidNotes\
+%APPDATA%\GlassNotes\
 ├── Notes\           # Individual note files (.json)
 └── settings.json    # Application settings
 ```
@@ -92,7 +92,7 @@ Notes and settings are stored in:
 ## Project Structure
 
 ```
-LucidNotes/
+GlassNotes/
 ├── Models/              # Data models (Note, AppSettings)
 ├── ViewModels/          # MVVM view models
 ├── Services/            # Business logic (NoteService, SettingsService)

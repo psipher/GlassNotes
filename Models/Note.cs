@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace LucidNotes.Models;
+namespace GlassNotes.Models;
 
 /// <summary>
 /// Represents a single note with content and metadata

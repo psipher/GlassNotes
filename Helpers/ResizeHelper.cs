@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace LucidNotes.Helpers;
+namespace GlassNotes.Helpers;
 
 /// <summary>
 /// Enables full edge/corner resizing for transparent WPF windows.

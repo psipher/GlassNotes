@@ -1,6 +1,6 @@
 using System.Windows.Media;
 
-namespace LucidNotes.Helpers;
+namespace GlassNotes.Helpers;
 
 public static class ColorHelper
 {

@@ -1,4 +1,4 @@
-<Window x:Class="LucidNotes.SettingsWindow"
+<Window x:Class="GlassNotes.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Settings" 
@@ -475,7 +475,7 @@
 
                 <!-- About Tab Content -->
                 <StackPanel x:Name="PanelAbout" Visibility="Collapsed">
-                    <TextBlock Text="Lucid Notes"
+                    <TextBlock Text="Glass Notes"
                                FontSize="18"
                                FontWeight="Bold"
                                Foreground="#1A1A1A"

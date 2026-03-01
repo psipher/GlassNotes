@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Input;
 using System.Windows.Interop;
 
-namespace LucidNotes.Helpers
+namespace GlassNotes.Helpers
 {
     public static class GlobalHotkeyHelper
     {

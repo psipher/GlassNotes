@@ -1,8 +1,8 @@
 using System.IO;
-using LucidNotes.Models;
+using GlassNotes.Models;
 using Newtonsoft.Json;
 
-namespace LucidNotes.Services;
+namespace GlassNotes.Services;
 
 /// <summary>
 /// Service for managing notes persistence
@@ -11,7 +11,7 @@ public class NoteService
 {
     private static readonly string NotesFolder = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-        "LucidNotes",
+        "GlassNotes",
         "Notes"
     );
 
@@ -59,7 +59,7 @@ public class NoteService
         {
             var defaultNote = new Note
             {
-                Title = "Welcome to Lucid Notes!",
+                Title = "Welcome to Glass Notes!",
                 Content = "Start typing your notes here...\n\nFeatures:\n• Always on top\n• Transparent background\n• Auto-save\n• Multiple notes\n• Customizable themes"
             };
             notes.Add(defaultNote);

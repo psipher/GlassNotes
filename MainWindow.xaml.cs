@@ -2,10 +2,10 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
-using LucidNotes.Helpers;
-using LucidNotes.ViewModels;
+using GlassNotes.Helpers;
+using GlassNotes.ViewModels;
 
-namespace LucidNotes;
+namespace GlassNotes;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml
