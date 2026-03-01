@@ -7,7 +7,14 @@
     <Platform Name="x86" />
   </Configurations>
   <Project Path="../GlassNotes.Package/GlassNotes.Package.wapproj" Type="c7167f0d-bc9f-4e6e-afe1-012c56b48db5" Id="38a03a56-c4f2-401a-9767-82ea6734c178">
-    <Deploy />
+    <Build Solution="*|Any CPU" Project="false" />
+    <Deploy Solution="*|ARM" />
+    <Deploy Solution="*|ARM64" />
+    <Deploy Solution="*|x64" />
+    <Deploy Solution="*|x86" />
   </Project>
-  <Project Path="GlassNotes.csproj" />
+  <Project Path="GlassNotes.csproj">
+    <Platform Solution="Release|ARM64" Project="ARM64" />
+    <Platform Solution="Release|x64" Project="x64" />
+  </Project>
 </Solution>

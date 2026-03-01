@@ -8,6 +8,8 @@
     <UseWPF>true</UseWPF>
     <RootNamespace>GlassNotes</RootNamespace>
     <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>AnyCPU;ARM64;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
