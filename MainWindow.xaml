@@ -203,7 +203,7 @@
                                                            FontWeight="SemiBold"
                                                            TextTrimming="CharacterEllipsis"/>
                                                 <Grid>
-                                                    <TextBlock x:Name="DateText" Text="{Binding ModifiedAt, StringFormat='Modified {0:M/d/yyyy h:mm tt}'}"
+                                                    <TextBlock x:Name="DateText" Text="{Binding ModifiedAt, StringFormat='Modified {0:g}'}"
                                                                Foreground="{DynamicResource TextSecondaryBrush}"
                                                                FontSize="10"
                                                                FontFamily="{Binding DataContext.Settings.FontFamily, RelativeSource={RelativeSource AncestorType=Window}}"
