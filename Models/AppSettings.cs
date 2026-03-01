@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace LucidNotes.Models;
+namespace GlassNotes.Models;
 
 /// <summary>
 /// Application settings for theme, appearance, and window state

@@ -1,9 +1,9 @@
-﻿<Window x:Class="LucidNotes.MainWindow"
+﻿<Window x:Class="GlassNotes.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:LucidNotes.ViewModels"
-        xmlns:lucidHelpers="clr-namespace:LucidNotes.Helpers"
-        Title="Lucid Notes" 
+        xmlns:vm="clr-namespace:GlassNotes.ViewModels"
+        xmlns:GlassHelpers="clr-namespace:GlassNotes.Helpers"
+        Title="Glass Notes" 
         Height="520" Width="680"
         MinHeight="420" MinWidth="620"
         WindowStyle="None"
@@ -69,7 +69,7 @@
                                     <Path Data="M15,15 L23,23" Stroke="#1976D2" StrokeThickness="1"/>
                                 </Grid>
                             </Viewbox>
-                            <TextBlock Text="Lucid Notes"
+                            <TextBlock Text="Glass Notes"
                                        FontWeight="SemiBold" FontSize="13"
                                        Foreground="{DynamicResource TextPrimaryBrush}"
                                        VerticalAlignment="Center"/>
@@ -250,7 +250,7 @@
                     <Grid Grid.Column="1" Margin="8" ClipToBounds="True">
                         <TextBox x:Name="NoteTextBox"
                                  Text="{Binding CurrentNote.Content, UpdateSourceTrigger=PropertyChanged}"
-                                 lucidHelpers:SearchHighlightBehavior.SearchText="{Binding SearchText}"
+                                 GlassHelpers:SearchHighlightBehavior.SearchText="{Binding SearchText}"
                                  AcceptsReturn="True" TextWrapping="Wrap"
                                  BorderThickness="0" Background="Transparent"
                                  Foreground="{DynamicResource TextPrimaryBrush}"
@@ -487,7 +487,7 @@
                             </StackPanel>
 
                             <StackPanel x:Name="SO_PanelAbout" Visibility="Collapsed">
-                                <TextBlock Text="Lucid Notes" FontWeight="Bold" FontSize="16" Foreground="#1A1A1A" Margin="0,0,0,8"/>
+                                <TextBlock Text="Glass Notes" FontWeight="Bold" FontSize="16" Foreground="#1A1A1A" Margin="0,0,0,8"/>
                                 <TextBlock Text="Version 1.0.0" FontSize="13" Foreground="#666666" Margin="0,0,0,4"/>
                                 <TextBlock Text="A lightweight, transparent note-taking app." FontSize="13" Foreground="#666666" TextWrapping="Wrap"/>
                             </StackPanel>

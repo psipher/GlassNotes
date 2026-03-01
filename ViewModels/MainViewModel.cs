@@ -4,10 +4,10 @@ using System.Windows.Data;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LucidNotes.Models;
-using LucidNotes.Services;
+using GlassNotes.Models;
+using GlassNotes.Services;
 
-namespace LucidNotes.ViewModels;
+namespace GlassNotes.ViewModels;
 
 /// <summary>
 /// Main ViewModel for the application

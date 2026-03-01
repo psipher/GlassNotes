@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Media;
 
-namespace LucidNotes.Helpers;
+namespace GlassNotes.Helpers;
 
 /// <summary>
 /// Helper for managing application themes

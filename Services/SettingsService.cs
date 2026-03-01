@@ -1,8 +1,8 @@
 using System.IO;
-using LucidNotes.Models;
+using GlassNotes.Models;
 using Newtonsoft.Json;
 
-namespace LucidNotes.Services;
+namespace GlassNotes.Services;
 
 /// <summary>
 /// Service for loading and saving application settings
@@ -11,7 +11,7 @@ public class SettingsService
 {
     private static readonly string SettingsFolder = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-        "LucidNotes"
+        "GlassNotes"
     );
 
     private static readonly string SettingsFilePath = Path.Combine(SettingsFolder, "settings.json");

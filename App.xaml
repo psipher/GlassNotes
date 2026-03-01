@@ -1,7 +1,7 @@
-﻿<Application x:Class="LucidNotes.App"
+﻿<Application x:Class="GlassNotes.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:helpers="clr-namespace:LucidNotes.Helpers"
+             xmlns:helpers="clr-namespace:GlassNotes.Helpers"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>

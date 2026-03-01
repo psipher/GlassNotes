@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace LucidNotes;
+namespace GlassNotes;
 
 /// <summary>
 /// Interaction logic for App.xaml

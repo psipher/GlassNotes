@@ -2,11 +2,11 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using LucidNotes.Helpers;
-using LucidNotes.Models;
-using LucidNotes.Services;
+using GlassNotes.Helpers;
+using GlassNotes.Models;
+using GlassNotes.Services;
 
-namespace LucidNotes
+namespace GlassNotes
 {
     public partial class NoteWindow : Window
     {
