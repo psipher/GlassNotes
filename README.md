@@ -1,8 +1,8 @@
-# Glass Notes
+# Glass Notes - Transparent Notes App for Windows
 
 ![Glass Notes Homepage](Assets/screenshots/homepage.png)
 
-A modern, lightweight note-taking application for Windows 10/11 with transparent overlay functionality.
+Glass Notes is a modern, lightweight, **open-source** note-taking application for Windows 10/11 that features a beautiful **transparent overlay**. If you are looking for a transparent notes app, a minimalist sticky notes alternative, or an "always on top" desktop widget for productivity, Glass Notes is designed perfectly for your workflow!
 
 ## Features
 
@@ -106,7 +106,7 @@ GlassNotes/
 
 ## License
 
-This project is open source and available for personal and commercial use.
+This project is open-source and licensed under the [MIT License](LICENSE).
 
 ## Contributing
 
