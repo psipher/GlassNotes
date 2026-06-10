@@ -103,6 +103,11 @@ public partial class MainViewModel : ObservableObject
     {
         if (_previousNote != null)
         {
+            if (_autoSaveTimer.IsEnabled)
+            {
+                _autoSaveTimer.Stop();
+                _noteService.SaveNote(_previousNote);
+            }
             _previousNote.PropertyChanged -= CurrentNote_PropertyChanged;
         }
 

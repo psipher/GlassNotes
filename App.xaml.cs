@@ -1,4 +1,5 @@
-﻿using System.Windows;
+using System.Windows;
+using GlassNotes.ViewModels;
 
 namespace GlassNotes;
 
@@ -15,7 +16,24 @@ public partial class App : Application
             new FrameworkPropertyMetadata(
                 System.Windows.Markup.XmlLanguage.GetLanguage(System.Globalization.CultureInfo.CurrentCulture.IetfLanguageTag)));
 
+        SessionEnding += App_SessionEnding;
+
         base.OnStartup(e);
+    }
+
+    private void App_SessionEnding(object sender, SessionEndingCancelEventArgs e)
+    {
+        try
+        {
+            if (MainWindow is MainWindow mainWindow && mainWindow.DataContext is MainViewModel viewModel)
+            {
+                viewModel.Cleanup();
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error during session ending cleanup: {ex.Message}");
+        }
     }
 }
 

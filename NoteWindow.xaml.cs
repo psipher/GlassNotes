@@ -68,7 +68,7 @@ namespace GlassNotes
             Resources["NoteForegroundBrush"] = textBrush;
 
             // Always on Top
-            Topmost = settings.AlwaysOnTop;
+            SetCurrentValue(TopmostProperty, settings.AlwaysOnTop);
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e)
