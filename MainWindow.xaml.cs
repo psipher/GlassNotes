@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -67,7 +67,7 @@ public partial class MainWindow : Window
         ThemeHelper.ApplyTheme(ViewModel.Settings.Theme);
 
         // Set always on top
-        Topmost = ViewModel.Settings.AlwaysOnTop;
+        SetCurrentValue(TopmostProperty, ViewModel.Settings.AlwaysOnTop);
 
         // Set initial opacity handled in InitializeComboBoxes -> ApplyBackgroundColor
 
@@ -104,20 +104,20 @@ public partial class MainWindow : Window
 
         if (ViewModel.Settings.WindowWidth >= minW && ViewModel.Settings.WindowHeight >= minH)
         {
-            Width = ViewModel.Settings.WindowWidth;
-            Height = ViewModel.Settings.WindowHeight;
+            SetCurrentValue(WidthProperty, ViewModel.Settings.WindowWidth);
+            SetCurrentValue(HeightProperty, ViewModel.Settings.WindowHeight);
         }
         else
         {
-            Width = 680;
-            Height = 520;
+            SetCurrentValue(WidthProperty, 680.0);
+            SetCurrentValue(HeightProperty, 520.0);
         }
 
         // Restore position only if it's plausibly on-screen
         if (ViewModel.Settings.WindowLeft >= 0 && ViewModel.Settings.WindowTop >= 0)
         {
-            Left = ViewModel.Settings.WindowLeft;
-            Top = ViewModel.Settings.WindowTop;
+            SetCurrentValue(LeftProperty, ViewModel.Settings.WindowLeft);
+            SetCurrentValue(TopProperty, ViewModel.Settings.WindowTop);
         }
     }
 
@@ -135,7 +135,7 @@ public partial class MainWindow : Window
         if (e.ClickCount == 2)
         {
             // Double-click to maximize/restore (optional)
-            WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+            SetCurrentValue(WindowStateProperty, WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized);
         }
         else
         {
@@ -146,12 +146,12 @@ public partial class MainWindow : Window
 
     private void MinimizeButton_Click(object sender, RoutedEventArgs e)
     {
-        WindowState = WindowState.Minimized;
+        SetCurrentValue(WindowStateProperty, WindowState.Minimized);
     }
 
     private void MaximizeButton_Click(object sender, RoutedEventArgs e)
     {
-        WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+        SetCurrentValue(WindowStateProperty, WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized);
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -164,8 +164,8 @@ public partial class MainWindow : Window
         base.OnStateChanged(e);
         if (MaximizeButton != null)
         {
-            MaximizeButton.Content = WindowState == WindowState.Maximized ? "❐" : "☐";
-            MaximizeButton.ToolTip = WindowState == WindowState.Maximized ? "Restore" : "Maximize";
+            MaximizeButton.SetCurrentValue(ContentProperty, WindowState == WindowState.Maximized ? "❐" : "☐");
+            MaximizeButton.SetCurrentValue(ToolTipProperty, WindowState == WindowState.Maximized ? "Restore" : "Maximize");
         }
     }
 
@@ -177,7 +177,7 @@ public partial class MainWindow : Window
     {
         if (SettingsOverlay.Visibility == Visibility.Visible)
         {
-            SettingsOverlay.Visibility = Visibility.Collapsed;
+            SettingsOverlay.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
         }
         else
         {
@@ -187,7 +187,7 @@ public partial class MainWindow : Window
                 SO_AttachEventHandlers();
                 _soInitialized = true;
             }
-            SettingsOverlay.Visibility = Visibility.Visible;
+            SettingsOverlay.SetCurrentValue(VisibilityProperty, Visibility.Visible);
             SO_SelectTab("General");
         }
     }
@@ -201,7 +201,7 @@ public partial class MainWindow : Window
 
     private void SettingsCloseButton_Click(object sender, RoutedEventArgs e)
     {
-        SettingsOverlay.Visibility = Visibility.Collapsed;
+        SettingsOverlay.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
     }
 
     private void SOTab_Click(object sender, RoutedEventArgs e)
@@ -214,17 +214,17 @@ public partial class MainWindow : Window
     {
         _soActiveTab = tabName;
 
-        SO_PanelGeneral.Visibility = tabName == "General" ? Visibility.Visible : Visibility.Collapsed;
-        SO_PanelColors.Visibility = tabName == "Colors" ? Visibility.Visible : Visibility.Collapsed;
-        SO_PanelFont.Visibility = tabName == "Font" ? Visibility.Visible : Visibility.Collapsed;
-        SO_PanelAbout.Visibility = tabName == "About" ? Visibility.Visible : Visibility.Collapsed;
+        SO_PanelGeneral.SetCurrentValue(VisibilityProperty, tabName == "General" ? Visibility.Visible : Visibility.Collapsed);
+        SO_PanelColors.SetCurrentValue(VisibilityProperty, tabName == "Colors" ? Visibility.Visible : Visibility.Collapsed);
+        SO_PanelFont.SetCurrentValue(VisibilityProperty, tabName == "Font" ? Visibility.Visible : Visibility.Collapsed);
+        SO_PanelAbout.SetCurrentValue(VisibilityProperty, tabName == "About" ? Visibility.Visible : Visibility.Collapsed);
 
         var gray = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0x88, 0x88, 0x88));
         var black = System.Windows.Media.Brushes.Black;
-        SO_TabGeneral.Foreground = tabName == "General" ? black : gray;
-        SO_TabColors.Foreground = tabName == "Colors" ? black : gray;
-        SO_TabFont.Foreground = tabName == "Font" ? black : gray;
-        SO_TabAbout.Foreground = tabName == "About" ? black : gray;
+        SO_TabGeneral.SetCurrentValue(ForegroundProperty, tabName == "General" ? black : gray);
+        SO_TabColors.SetCurrentValue(ForegroundProperty, tabName == "Colors" ? black : gray);
+        SO_TabFont.SetCurrentValue(ForegroundProperty, tabName == "Font" ? black : gray);
+        SO_TabAbout.SetCurrentValue(ForegroundProperty, tabName == "About" ? black : gray);
 
         // Move underline
         Button? targetButton = tabName switch
@@ -257,8 +257,8 @@ public partial class MainWindow : Window
                 // Fallback for initial layout if needed
                 if (targetButton.ActualWidth == 0 && tabName == "General")
                 {
-                    SO_TabUnderline.Margin = new Thickness(0, 0, 0, 0);
-                    SO_TabUnderline.Width = 60; // Default estimate
+                    SO_TabUnderline.SetCurrentValue(MarginProperty, new Thickness(0, 0, 0, 0));
+                    SO_TabUnderline.SetCurrentValue(WidthProperty, 60.0); // Default estimate
                 }
                 else
                 {
@@ -267,8 +267,8 @@ public partial class MainWindow : Window
                     if (parent != null)
                     {
                         var offset = targetButton.TranslatePoint(new Point(0, 0), parent);
-                        SO_TabUnderline.Margin = new Thickness(offset.X, 0, 0, 0);
-                        SO_TabUnderline.Width = targetButton.ActualWidth > 0 ? targetButton.ActualWidth : 60;
+                        SO_TabUnderline.SetCurrentValue(MarginProperty, new Thickness(offset.X, 0, 0, 0));
+                        SO_TabUnderline.SetCurrentValue(WidthProperty, targetButton.ActualWidth > 0 ? targetButton.ActualWidth : 60.0);
                     }
                 }
             }
@@ -281,11 +281,11 @@ public partial class MainWindow : Window
 
     private void SO_LoadSettings()
     {
-        SO_TransparencySlider.Value = ViewModel.Settings.Opacity;
-        SO_TransparencyLabel.Text = $"{(int)(ViewModel.Settings.Opacity * 100)}%";
-        SO_AlwaysOnTopCheckBox.IsChecked = ViewModel.Settings.AlwaysOnTop;
-        SO_FontSizeSlider.Value = ViewModel.Settings.FontSize;
-        SO_FontSizeLabel.Text = $"{(int)ViewModel.Settings.FontSize}px";
+        SO_TransparencySlider.SetCurrentValue(System.Windows.Controls.Primitives.RangeBase.ValueProperty, ViewModel.Settings.Opacity);
+        SO_TransparencyLabel.SetCurrentValue(TextBlock.TextProperty, $"{(int)(ViewModel.Settings.Opacity * 100)}%");
+        SO_AlwaysOnTopCheckBox.SetCurrentValue(System.Windows.Controls.Primitives.ToggleButton.IsCheckedProperty, ViewModel.Settings.AlwaysOnTop);
+        SO_FontSizeSlider.SetCurrentValue(System.Windows.Controls.Primitives.RangeBase.ValueProperty, ViewModel.Settings.FontSize);
+        SO_FontSizeLabel.SetCurrentValue(TextBlock.TextProperty, $"{(int)ViewModel.Settings.FontSize}px");
         SelectComboByTag(SO_BackgroundColorComboBox, ViewModel.Settings.BackgroundColor);
         SelectComboByTag(SO_TextColorComboBox, ViewModel.Settings.TextColor);
         SelectComboByTag(SO_FontFamilyComboBox, ViewModel.Settings.FontFamily);
@@ -294,7 +294,7 @@ public partial class MainWindow : Window
     private static void SelectComboByTag(ComboBox box, string? value)
     {
         foreach (ComboBoxItem item in box.Items)
-            if (item.Tag?.ToString() == value) { box.SelectedItem = item; return; }
+            if (item.Tag?.ToString() == value) { box.SetCurrentValue(System.Windows.Controls.Primitives.Selector.SelectedItemProperty, item); return; }
     }
 
     private void SO_AttachEventHandlers()
@@ -302,18 +302,18 @@ public partial class MainWindow : Window
         SO_TransparencySlider.ValueChanged += (s, e) =>
         {
             ViewModel.Settings.Opacity = e.NewValue;
-            SO_TransparencyLabel.Text = $"{(int)(e.NewValue * 100)}%";
+            SO_TransparencyLabel.SetCurrentValue(TextBlock.TextProperty, $"{(int)(e.NewValue * 100)}%");
             ApplyBackgroundColor(ViewModel.Settings.BackgroundColor);
             ViewModel.SaveSettings();
         };
 
-        SO_AlwaysOnTopCheckBox.Checked += (s, e) => { Topmost = true; ViewModel.Settings.AlwaysOnTop = true; ViewModel.SaveSettings(); };
-        SO_AlwaysOnTopCheckBox.Unchecked += (s, e) => { Topmost = false; ViewModel.Settings.AlwaysOnTop = false; ViewModel.SaveSettings(); };
+        SO_AlwaysOnTopCheckBox.Checked += (s, e) => { SetCurrentValue(TopmostProperty, true); ViewModel.Settings.AlwaysOnTop = true; ViewModel.SaveSettings(); };
+        SO_AlwaysOnTopCheckBox.Unchecked += (s, e) => { SetCurrentValue(TopmostProperty, false); ViewModel.Settings.AlwaysOnTop = false; ViewModel.SaveSettings(); };
 
         SO_FontSizeSlider.ValueChanged += (s, e) =>
         {
             ViewModel.Settings.FontSize = e.NewValue;
-            SO_FontSizeLabel.Text = $"{(int)e.NewValue}px";
+            SO_FontSizeLabel.SetCurrentValue(TextBlock.TextProperty, $"{(int)e.NewValue}px");
             ViewModel.SaveSettings();
         };
 
@@ -387,7 +387,7 @@ public partial class MainWindow : Window
         // Keep text editor transparent
         if (NoteTextBox != null)
         {
-            NoteTextBox.Background = System.Windows.Media.Brushes.Transparent;
+            NoteTextBox.SetCurrentValue(Control.BackgroundProperty, System.Windows.Media.Brushes.Transparent);
         }
     }
 
@@ -395,7 +395,7 @@ public partial class MainWindow : Window
     {
         if (NoteTextBox != null)
         {
-            NoteTextBox.Foreground = Helpers.ColorHelper.GetTextBrush(colorName);
+            NoteTextBox.SetCurrentValue(Control.ForegroundProperty, Helpers.ColorHelper.GetTextBrush(colorName));
         }
     }
 

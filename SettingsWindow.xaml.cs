@@ -39,12 +39,12 @@ public partial class SettingsWindow : Window
     private void PositionOverMainWindow()
     {
         // Center settings over the main window
-        Left = _mainWindow.Left + (_mainWindow.ActualWidth - ActualWidth) / 2;
-        Top = _mainWindow.Top + (_mainWindow.ActualHeight - ActualHeight) / 2;
+        SetCurrentValue(LeftProperty, _mainWindow.Left + (_mainWindow.ActualWidth - ActualWidth) / 2);
+        SetCurrentValue(TopProperty, _mainWindow.Top + (_mainWindow.ActualHeight - ActualHeight) / 2);
 
         // Clamp so it never goes off-screen
-        Left = Math.Max(0, Left);
-        Top = Math.Max(0, Top);
+        SetCurrentValue(LeftProperty, Math.Max(0, Left));
+        SetCurrentValue(TopProperty, Math.Max(0, Top));
     }
 
     // ── Dragging the settings header moves THIS settings window ─────────────
@@ -79,18 +79,18 @@ public partial class SettingsWindow : Window
 
         // Animate underline to the correct position
         var (_, _, targetLeft) = _tabs[tabName];
-        TabUnderline.Margin = new Thickness(targetLeft, 0, 0, 0);
+        TabUnderline.SetCurrentValue(MarginProperty, new Thickness(targetLeft, 0, 0, 0));
     }
 
     // ── Load saved settings into controls ───────────────────────────────────
     private void LoadSettings()
     {
-        TransparencySlider.Value = _viewModel.Settings.Opacity;
+        TransparencySlider.SetCurrentValue(System.Windows.Controls.Primitives.RangeBase.ValueProperty, _viewModel.Settings.Opacity);
         UpdateTransparencyLabel();
 
-        AlwaysOnTopCheckBox.IsChecked = _viewModel.Settings.AlwaysOnTop;
+        AlwaysOnTopCheckBox.SetCurrentValue(System.Windows.Controls.Primitives.ToggleButton.IsCheckedProperty, _viewModel.Settings.AlwaysOnTop);
 
-        FontSizeSlider.Value = _viewModel.Settings.FontSize;
+        FontSizeSlider.SetCurrentValue(System.Windows.Controls.Primitives.RangeBase.ValueProperty, _viewModel.Settings.FontSize);
         UpdateFontSizeLabel();
 
         SelectComboItem(BackgroundColorComboBox, _viewModel.Settings.BackgroundColor);
@@ -104,7 +104,7 @@ public partial class SettingsWindow : Window
         {
             if (item.Tag?.ToString() == value)
             {
-                box.SelectedItem = item;
+                box.SetCurrentValue(System.Windows.Controls.Primitives.Selector.SelectedItemProperty, item);
                 return;
             }
         }
@@ -127,14 +127,14 @@ public partial class SettingsWindow : Window
         AlwaysOnTopCheckBox.Checked += (s, e) =>
         {
             _viewModel.Settings.AlwaysOnTop = true;
-            _mainWindow.Topmost = true;
+            _mainWindow.SetCurrentValue(Window.TopmostProperty, true);
             _viewModel.SaveSettings();
         };
 
         AlwaysOnTopCheckBox.Unchecked += (s, e) =>
         {
             _viewModel.Settings.AlwaysOnTop = false;
-            _mainWindow.Topmost = false;
+            _mainWindow.SetCurrentValue(Window.TopmostProperty, false);
             _viewModel.SaveSettings();
         };
 
@@ -180,12 +180,12 @@ public partial class SettingsWindow : Window
 
     private void UpdateTransparencyLabel()
     {
-        TransparencyLabel.Text = $"{(int)(TransparencySlider.Value * 100)}%";
+        TransparencyLabel.SetCurrentValue(TextBlock.TextProperty, $"{(int)(TransparencySlider.Value * 100)}%");
     }
 
     private void UpdateFontSizeLabel()
     {
-        FontSizeLabel.Text = $"{(int)FontSizeSlider.Value}px";
+        FontSizeLabel.SetCurrentValue(TextBlock.TextProperty, $"{(int)FontSizeSlider.Value}px");
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
