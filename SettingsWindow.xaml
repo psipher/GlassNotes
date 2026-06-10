@@ -480,7 +480,7 @@
                                FontWeight="Bold"
                                Foreground="#1A1A1A"
                                Margin="0,0,0,6"/>
-                    <TextBlock Text="Version 2.0"
+                    <TextBlock Text="Version 1.0.7"
                                Foreground="#888888"
                                FontSize="13"
                                Margin="0,0,0,16"/>

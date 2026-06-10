@@ -1,8 +1,8 @@
-# Release Notes - GlassNotes v1.0.1
+# Release Notes - GlassNotes v1.0.7
 
 This release resolves critical data-loss issues related to note auto-saving and introduces static analysis guidelines to prevent future regressions.
 
-## [v1.0.1] - 2026-06-10
+## [v1.0.7] - 2026-06-10
 
 ### Fixed
 * **Note Switching Data Loss**: Fixed a bug where unsaved changes to a note were lost if the user switched to another note before the 3-second auto-save timer fired. Changes are now flushed to disk immediately upon switching.

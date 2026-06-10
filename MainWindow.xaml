@@ -488,7 +488,7 @@
 
                             <StackPanel x:Name="SO_PanelAbout" Visibility="Collapsed">
                                 <TextBlock Text="Glass Notes" FontWeight="Bold" FontSize="16" Foreground="#1A1A1A" Margin="0,0,0,8"/>
-                                <TextBlock Text="Version 1.0.1" FontSize="13" Foreground="#666666" Margin="0,0,0,4"/>
+                                <TextBlock Text="Version 1.0.7" FontSize="13" Foreground="#666666" Margin="0,0,0,4"/>
                                 <TextBlock Text="A lightweight, transparent note-taking app." FontSize="13" Foreground="#666666" TextWrapping="Wrap"/>
                             </StackPanel>
                         </Grid>
