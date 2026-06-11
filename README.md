@@ -10,6 +10,17 @@ Glass Notes is a modern, lightweight, **open-source** note-taking application fo
   <img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200" alt="Get it from Microsoft"/>
 </a>
 
+## Table of Contents
+1. [Features](#features)
+2. [Requirements](#requirements)
+3. [Building from Source](#building-from-source)
+4. [Usage](#usage)
+5. [Data Storage](#data-storage)
+6. [Technology Stack](#technology-stack)
+7. [Project Structure](#project-structure)
+8. [License](#license)
+9. [Contributing](#contributing)
+
 ## Features
 
 - **Always On Top** - Keep your notes visible while working in other applications
