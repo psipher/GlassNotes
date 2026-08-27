@@ -14,7 +14,7 @@ Glass Notes is a modern, lightweight, **open-source** note-taking application fo
 
 - **Always On Top** - Keep your notes visible while working in other applications
 - **Customizable Appearance** - Choose between light and dark themes
-- **Adjustable Transparency** - Set the perfect opacity level (30%-100%)
+- **Adjustable Transparency** - Set the perfect opacity level (10%-100%)
 - **Hide Notes** - Quickly toggle the visibility of all your notes to declutter your workspace
 - **Multiple Notes** - Create and manage multiple notes with quick switching
   ![Multiple Tabs Example](Assets/screenshots/open_multiple_tabs.png)
